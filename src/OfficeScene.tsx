@@ -457,7 +457,11 @@ export default function OfficeScene({ desks, night, boardCount, anchors, boardAn
         const d = list.find((x) => x.desk.key === a.key);
         const act = d?.doing.activity ?? 'pulang';
         const away = act === 'pulang';
-        a.root.visible = !away;
+        // Karakter tetap menjadi bagian dari scene di luar jam kerja. Statusnya
+        // tetap `pulang` (jadi tidak ada aktivitas kerja yang dipalsukan), tetapi
+        // menyembunyikan Group membuat halaman utama terlihat seperti karakter
+        // gagal dimuat ketika dibuka malam hari atau di luar zona waktu kantor.
+        a.root.visible = true;
         const busy = act === 'kerja' || act === 'laporan';
         const sm = a.screen.material as MeshLambertMaterial;
         sm.emissive.set(busy ? (act === 'laporan' ? '#7bdff2' : '#66e3a5') : act === 'belajar' ? '#ffd166' : act === 'siaga' ? '#5b4a92' : '#000000');
